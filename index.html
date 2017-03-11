@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>xKiLLx Application</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <a class="navbar-brand"><i class="glyphicon glyphicon-bullhorn"></i> xKiLLx Application</a>
+        </div>
+    </nav>
+    <!-- main body of our application -->
+    <div class="container" id="app">
+        <!-- add an event form -->
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Add Person</h4>
+                </div>
+                <div class="panel-body">
+                    <form @submit.prevent="validateBeforeSubmit">
+                        <div class="form-group" :class="{'has-error': errors.has('name')}">
+                            <input class="form-control" placeholder="Name" v-model="person.name" @keyup="capitalize" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('name') }" name="name">
+                            <h6 class="text-danger" v-if="errors.has('name')">{{ errors.first('name') }}</h6>
+                        </div>
+                        <div class="form-group">
+                            <label class="radio control-label">Sex</label>
+                            <label class="radio-inline">
+                                <input type="radio" checked="checked" name="sex" id="male" value="Male" v-model="person.sex">Male</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="sex" id="female" value="Female" v-model="person.sex">Female</label>
+                        </div>
+                        <div class="form-group" :class="{'has-error': errors.has('email')}">
+                            <input v-model="person.email" v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" class="form-control" type="email" placeholder="Email">
+                            <h6 class="text-danger" v-if="errors.has('email')">{{ errors.first('email') }}</h6>
+                        </div>
+                        <div class="form-group" :class="{'has-error': errors.has('phone')}">
+                            <input class="form-control" placeholder="Phone" v-model="person.phone" v-validate="'required|numeric'" :class="{'input': true, 'is-danger': errors.has('phone') }" name="phone">
+                            <h6 class="text-danger" v-if="errors.has('phone')">{{ errors.first('phone') }}</h6>
+                        </div>
+                        <div class="form-group" :class="{'has-error': errors.has('username')}">
+                            <input class="form-control" placeholder="Username" v-model="person.username" v-validate="'required|max:10'" :class="{'input': true, 'is-danger': errors.has('username') }" name="username">
+                            <h6 class="text-danger" v-if="errors.has('username')">{{ errors.first('username') }}</h6>
+                        </div>
+                        <div class="form-group" :class="{'has-error': errors.has('password')}">
+                            <input type="password" class="form-control" placeholder="Password" v-model="person.password" v-validate="'required|min:7'" :class="{'input': true, 'is-danger': errors.has('password') }" name="password">
+                            <h6 class="text-danger" v-if="errors.has('password')">{{ errors.first('password') }}</h6>
+                        </div>
+                        <div class="form-group">
+                            <label class="radio control-label">Hobbies</label>
+                            <input type="checkbox" id="gaming" value="Gaming" v-model="person.hobbies"> Gaming
+                            <input type="checkbox" id="coding" value="Coding" v-model="person.hobbies"> Coding
+                            <input type="checkbox" id="swimming" value="Swimming" v-model="person.hobbies"> Swimming
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button class="btn btn-info" @click.prevent="clear">Clear</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- show the events  -->
+        <div class="col-sm-8">
+            <div v-if="people.length !== 0" class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Sex</th>
+                        <th>Hobbies</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Username</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr v-for="(person, index) in people">
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ person.name }}</td>
+                        <td>{{ person.sex }}</td>
+                        <td>{{ person.hobbies }}</td>
+                        <td>{{ person.email }}</td>
+                        <td>{{ person.phone }}</td>
+                        <td>{{ person.username }}</td>
+                        <td>
+                            <a @click.prevent="editPerson(person)" type="button" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-pencil"></i></a>
+                            <a @click.prevent="deletePerson(person)" type="button" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-remove"></i></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="js/vue.min.js"></script>
+    <script src="js/vue-resource.min.js"></script>
+    <script src="js/vee-validate.min.js"></script>
+    <script>
+    </script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
